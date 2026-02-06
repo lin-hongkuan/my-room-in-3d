@@ -28,10 +28,15 @@ module.exports = {
     {
         rules:
         [
-            // HTML
+            // HTML（不解析 /imgs/、/close.svg 等静态路径，避免 Module not found）
             {
                 test: /\.(html)$/,
-                use: ['html-loader']
+                use: [
+                    {
+                        loader: 'html-loader',
+                        options: { sources: false }
+                    }
+                ]
             },
 
             // JS

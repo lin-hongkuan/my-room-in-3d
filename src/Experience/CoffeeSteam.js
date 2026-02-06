@@ -18,7 +18,7 @@ export default class CoffeeSteam
         if(this.debug)
         {
             this.debugFolder = this.debug.addFolder({
-                title: 'coffeeSteam',
+                title: '咖啡蒸汽',
                 expanded: false
             })
         }
@@ -71,7 +71,7 @@ export default class CoffeeSteam
                 this.model.material.uniforms.uTimeFrequency,
                 'value',
                 {
-                    label: 'uTimeFrequency', min: 0.0001, max: 0.001, step: 0.0001
+                    label: '时间频率', min: 0.0001, max: 0.001, step: 0.0001
                 }
             )
             
@@ -79,7 +79,7 @@ export default class CoffeeSteam
                 this.model.material.uniforms.uUvFrequency.value,
                 'x',
                 {
-                    min: 0.001, max: 20, step: 0.001
+                    label: 'UV 频率 X', min: 0.001, max: 20, step: 0.001
                 }
             )
             
@@ -87,7 +87,7 @@ export default class CoffeeSteam
                 this.model.material.uniforms.uUvFrequency.value,
                 'y',
                 {
-                    min: 0.001, max: 20, step: 0.001
+                    label: 'UV 频率 Y', min: 0.001, max: 20, step: 0.001
                 }
             )
         }

@@ -16,7 +16,7 @@ export default class GoogleLeds
         if(this.debug)
         {
             this.debugFolder = this.debug.addFolder({
-                title: 'googleLeds',
+                title: '谷歌灯',
                 expanded: false
             })
         }

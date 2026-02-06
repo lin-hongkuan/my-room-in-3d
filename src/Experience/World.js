@@ -30,6 +30,22 @@ export default class World
                 this.setElgatoLight()
                 this.setBouncingLogo()
                 this.setScreens()
+                this.setTV()
+                if (this.experience.interaction)
+                {
+                    this.experience.interaction.setHotspots({
+                        pcScreen: this.pcScreen.model.mesh,
+                        macScreen: this.macScreen.model.mesh,
+                        tv: this.tvMesh
+                    })
+                }
+                const nav = this.experience.navigation
+                if (nav && nav.setPresetFromMesh)
+                {
+                    nav.setPresetFromMesh('pcScreen', this.pcScreen.model.mesh, 6)
+                    nav.setPresetFromMesh('macScreen', this.macScreen.model.mesh, 6)
+                    nav.setPresetFromMesh('tv', this.tvMesh, 5)
+                }
             }
         })
     }
@@ -79,6 +95,20 @@ export default class World
             this.resources.items.macScreenModel.scene.children[0],
             '/assets/videoStream.mp4'
         )
+    }
+
+    setTV()
+    {
+        const geo = new THREE.PlaneGeometry(2.4, 1.7)
+        const mat = new THREE.MeshBasicMaterial({
+            transparent: true,
+            opacity: 0,
+            side: THREE.DoubleSide
+        })
+        this.tvMesh = new THREE.Mesh(geo, mat)
+        this.tvMesh.position.set(4.19, 2.7, 1.6)
+        this.tvMesh.rotation.y = -Math.PI * 0.5
+        this.scene.add(this.tvMesh)
     }
 
     resize()

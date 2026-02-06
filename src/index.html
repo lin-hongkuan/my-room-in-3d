@@ -24,11 +24,37 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@200;400;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="experience"></div>
-    <div class="credits">
-        My Room in 3D by <a href="https://bruno-simon.com" target="_blank">Bruno Simon</a> (<a href="https://github.com/brunosimon/my-room-in-3d" target="_blank">Source code</a>)
+
+    <p class="hint" id="hint">点击屏幕探索</p>
+
+    <!-- 照抄 Questopia：.projects 全屏 + .header + .layout-grid + .card(img + .description) -->
+    <div class="projects" id="modalOverlay" aria-hidden="true">
+      <div class="header">
+        <div class="title">
+          <h1 id="projectsTitle">Current Projects</h1>
+          <p id="projectsSubtitle">My present as a programmer</p>
+        </div>
+        <div class="close-btn">
+          <button type="button" id="modalClose" aria-label="关闭"><img src="/close.svg" alt="" /></button>
+        </div>
+      </div>
+      <div class="container">
+        <div class="layout-grid" id="projectsGrid">
+          <!-- 卡片内容由 script.js 根据 viewState 动态注入，结构保持与 Questopia 一致 -->
+        </div>
+      </div>
+    </div>
+
+    <!-- F12 开发者面板：默认隐藏，按 F12 显示，内有「显示设置」开关 -->
+    <div class="dev-panel" id="devPanel" aria-hidden="true">
+        <label class="dev-panel__row">
+            <input type="checkbox" id="devPanelToggle" />
+            <span>显示设置</span>
+        </label>
     </div>
 </body>
 </html>

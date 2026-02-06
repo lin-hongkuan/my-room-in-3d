@@ -10,6 +10,7 @@ import Renderer from './Renderer.js'
 import Camera from './Camera.js'
 import World from './World.js'
 import Navigation from './Navigation.js'
+import Interaction from './Interaction.js'
 
 import assets from './assets.js'
 
@@ -45,7 +46,8 @@ export default class Experience
         this.setResources()
         this.setWorld()
         this.setNavigation()
-        
+        this.setInteraction()
+
         this.sizes.on('resize', () =>
         {
             this.resize()
@@ -82,8 +84,7 @@ export default class Experience
         this.config.smallestSide = Math.min(this.config.width, this.config.height)
         this.config.largestSide = Math.max(this.config.width, this.config.height)
         
-        // Debug
-        // this.config.debug = window.location.hash === '#debug'
+        // Debug：仅控制是否创建 Stats/调试面板，默认不显示，由 F12 面板开关控制
         this.config.debug = this.config.width > 420
     }
 
@@ -91,7 +92,7 @@ export default class Experience
     {
         if(this.config.debug)
         {
-            this.stats = new Stats(true)
+            this.stats = new Stats(false)
         }
     }
 
@@ -99,8 +100,22 @@ export default class Experience
     {
         if(this.config.debug)
         {
-            this.debug = new Pane()
+            this.debug = new Pane({ title: '设置' })
             this.debug.containerElem_.style.width = '320px'
+            this.debug.containerElem_.style.display = 'none'
+        }
+    }
+
+    setDebugPanelVisible(visible)
+    {
+        if(this.stats)
+        {
+            if(visible) this.stats.activate()
+            else this.stats.deactivate()
+        }
+        if(this.debug && this.debug.containerElem_)
+        {
+            this.debug.containerElem_.style.display = visible ? 'block' : 'none'
         }
     }
     
@@ -136,6 +151,11 @@ export default class Experience
         this.navigation = new Navigation()
     }
 
+    setInteraction()
+    {
+        this.interaction = new Interaction()
+    }
+
     update()
     {
         if(this.stats)
@@ -151,6 +171,9 @@ export default class Experience
 
         if(this.navigation)
             this.navigation.update()
+
+        if(this.interaction)
+            this.interaction.update()
 
         window.requestAnimationFrame(() =>
         {

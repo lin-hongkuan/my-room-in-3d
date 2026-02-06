@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GBA 模拟器</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { width: 100%; height: 100%; background: #000; display: flex; align-items: center; justify-content: center; }
+        #game { width: 100%; height: 100%; max-width: 100%; }
+    </style>
+</head>
+<body>
+    <div id="game"></div>
+    <script>
+        // 请将 SuperMarioAdvance4.gba 放入 static/assets/ 目录，构建后即为 /assets/SuperMarioAdvance4.gba
+        window.EJS_player = '#game';
+        window.EJS_core = 'gba';
+        window.EJS_pathtodata = 'https://cdn.emulatorjs.org/stable/data/';
+        window.EJS_gameUrl = window.location.origin + '/assets/SuperMarioAdvance4.gba';
+        window.EJS_startOnLoaded = true;
+    </script>
+    <script src="https://cdn.emulatorjs.org/stable/data/loader.js"></script>
+</body>
+</html>

@@ -18,7 +18,7 @@ export default class CoffeeSteam
         if(this.debug)
         {
             this.debugFolder = this.debug.addFolder({
-                title: 'baked',
+                title: '烘焙场景',
                 expanded: true
             })
         }
@@ -93,14 +93,14 @@ export default class CoffeeSteam
                 .addInput(
                     this.model.material.uniforms.uNightMix,
                     'value',
-                    { label: 'uNightMix', min: 0, max: 1 }
+                    { label: '昼夜混合', min: 0, max: 1 }
                 )
 
             this.debugFolder
                 .addInput(
                     this.model.material.uniforms.uNeutralMix,
                     'value',
-                    { label: 'uNeutralMix', min: 0, max: 1 }
+                    { label: '中性混合', min: 0, max: 1 }
                 )
 
             this.debugFolder
@@ -118,7 +118,7 @@ export default class CoffeeSteam
                 .addInput(
                     this.model.material.uniforms.uLightTvStrength,
                     'value',
-                    { label: 'uLightTvStrength', min: 0, max: 3 }
+                    { label: '电视光强度', min: 0, max: 3 }
                 )
 
             this.debugFolder
@@ -136,7 +136,7 @@ export default class CoffeeSteam
                 .addInput(
                     this.model.material.uniforms.uLightDeskStrength,
                     'value',
-                    { label: 'uLightDeskStrength', min: 0, max: 3 }
+                    { label: '桌面光强度', min: 0, max: 3 }
                 )
 
             this.debugFolder
@@ -154,7 +154,7 @@ export default class CoffeeSteam
                 .addInput(
                     this.model.material.uniforms.uLightPcStrength,
                     'value',
-                    { label: 'uLightPcStrength', min: 0, max: 3 }
+                    { label: '电脑光强度', min: 0, max: 3 }
                 )
         }
     }

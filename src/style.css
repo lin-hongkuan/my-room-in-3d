@@ -18,17 +18,202 @@ body
     height: 100vh;
 }
 
-.credits
+/* Hint (default view) */
+.hint
 {
-    position: absolute;
+    position: fixed;
     bottom: 20px;
-    right: 20px;
-    color: #ffffff;
-    text-align: right;
+    left: 20px;
+    z-index: 5;
+    margin: 0;
+    padding: 0.4rem 0.75rem;
     font-family: 'Roboto', sans-serif;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.85);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.4s ease;
 }
 
-.credits a
+.hint.is-visible
 {
-    color: inherit;
+    opacity: 1;
+}
+
+/* ---------- 照抄 Questopia：.projects 全屏 + .header + .layout-grid + .card ---------- */
+.projects {
+    font-family: Rubik, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-size: 16px;
+    position: absolute;
+    opacity: 0;
+    visibility: hidden;
+    width: 100vw;
+    height: 100vh;
+    overflow: scroll;
+    background-color: rgba(0, 0, 0, 0.6);
+    transition: all 0.3s;
+    z-index: 999;
+}
+
+.projects.visible {
+    opacity: 1;
+    visibility: visible;
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    transition: all 0.3s;
+}
+
+.projects .header {
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 55rem;
+    height: 10vh;
+    margin-bottom: 1.5rem;
+    margin-top: 3rem;
+}
+
+.projects .header h1 {
+    font-size: 2rem;
+    line-height: 2.5rem;
+    color: #d0d0d0;
+    font-weight: 700;
+}
+
+.projects .header p {
+    color: #aeaeae;
+    font-weight: 200;
+    line-height: 20px;
+}
+
+.projects .container {
+    margin: auto;
+    max-width: 55rem;
+}
+
+.projects .layout-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto auto auto;
+    justify-items: center;
+    justify-content: center;
+    align-items: stretch;
+    align-content: stretch;
+    grid-column-gap: 30px;
+    grid-row-gap: 30px;
+}
+
+@media (max-width: 768px) {
+    .projects .layout-grid {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto auto auto auto;
+        grid-column-gap: 0;
+    }
+    .projects .container {
+        max-width: 90%;
+    }
+    .projects .header {
+        padding: 0 2rem;
+    }
+}
+
+.projects .card {
+    border-radius: 6px;
+    transition: box-shadow 280ms ease, transform 280ms ease;
+    box-shadow: 0 1px 2px 0 #404040;
+    display: inline-block;
+    max-width: 500px;
+    line-height: 0;
+    text-decoration: none;
+    overflow: hidden;
+    background-color: #171717ca;
+}
+
+.projects .card:hover {
+    box-shadow: 0 10px 25px 2px rgba(88, 88, 88, 0.6), 0 1px 2px 0 #404040;
+    transform: translateY(-3px);
+}
+
+.projects .img {
+    max-width: 100%;
+    margin: 0;
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.projects .description {
+    padding: 1rem;
+    margin: 0;
+    line-height: 40px;
+}
+
+.projects .description h3 {
+    color: #d0d0d0;
+    line-height: 30px;
+    font-weight: 700;
+    font-size: 20px;
+}
+
+.projects .description p {
+    color: #aeaeae;
+    font-weight: 200;
+    line-height: 20px;
+}
+
+.projects button {
+    background-color: transparent;
+    border: 0;
+}
+
+.projects .close-btn > button {
+    height: 40px;
+    width: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.projects .close-btn:hover {
+    cursor: pointer;
+    border-radius: 50%;
+    background-color: rgba(94, 94, 94, 0.6);
+}
+
+/* F12 开发者面板：默认隐藏，按 F12 显示，内有「显示设置」开关，放在右下角 */
+.dev-panel {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 9999;
+    padding: 10px 14px;
+    background: rgba(0, 0, 0, 0.75);
+    border-radius: 8px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 13px;
+    color: #fff;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+
+.dev-panel.is-visible {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.dev-panel__row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.dev-panel__row input {
+    cursor: pointer;
 }
