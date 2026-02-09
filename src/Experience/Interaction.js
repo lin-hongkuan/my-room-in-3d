@@ -41,10 +41,15 @@ export default class Interaction
                 this.hotspotList.push(hotspots.macScreen)
                 this.hotspotMap.set(hotspots.macScreen, 'macScreen')
             }
-            if (hotspots.tv)
+if (hotspots.tv)
             {
                 this.hotspotList.push(hotspots.tv)
                 this.hotspotMap.set(hotspots.tv, 'tv')
+            }
+            if (hotspots.bookshelf)
+            {
+                this.hotspotList.push(hotspots.bookshelf)
+                this.hotspotMap.set(hotspots.bookshelf, 'bookshelf')
             }
         }
     }
@@ -73,10 +78,21 @@ export default class Interaction
         return intersects.length > 0 ? intersects[0].object : null
     }
 
-    setMeshHover(mesh, hovered)
+setMeshHover(mesh, hovered)
     {
         if (!mesh || !mesh.material) return
-        mesh.material.color.copy(hovered ? this.hoverColor : this.normalColor)
+        
+        if (mesh.userData.debugMode) return
+        
+        if (mesh.userData.isTransparentHotspot)
+        {
+            mesh.material.opacity = hovered ? 0.2 : 0
+            mesh.material.color.setHex(hovered ? 0x88aaff : 0xffffff)
+        }
+        else
+        {
+            mesh.material.color.copy(hovered ? this.hoverColor : this.normalColor)
+        }
     }
 
     setListeners()

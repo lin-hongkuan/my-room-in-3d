@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>My Room in 3D</title>
 
     <meta itemprop="name" content="My Room in 3D — Experiment">
@@ -31,6 +31,11 @@
 
     <p class="hint" id="hint">点击屏幕探索</p>
 
+    <!-- 背景音乐开关按钮 -->
+    <button class="audio-toggle" id="audioToggle" aria-label="背景音乐开关">
+        <span class="audio-toggle__icon" id="audioIcon">&#9835;</span>
+    </button>
+
     <!-- 照抄 Questopia：.projects 全屏 + .header + .layout-grid + .card(img + .description) -->
     <div class="projects" id="modalOverlay" aria-hidden="true">
       <div class="header">
@@ -42,6 +47,7 @@
           <button type="button" id="modalClose" aria-label="关闭"><img src="/close.svg" alt="" /></button>
         </div>
       </div>
+      <p class="projects__intro" id="projectsIntro"></p>
       <div class="container">
         <div class="layout-grid" id="projectsGrid">
           <!-- 卡片内容由 script.js 根据 viewState 动态注入，结构保持与 Questopia 一致 -->

@@ -22,9 +22,9 @@ export default class Renderer
         this.setPostProcess()
     }
 
-    setInstance()
+setInstance()
     {
-        this.clearColor = '#010101'
+        this.clearColor = '#0a0a12'
 
         // Renderer
         this.instance = new THREE.WebGLRenderer({
@@ -37,18 +37,11 @@ export default class Renderer
         this.instance.domElement.style.width = '100%'
         this.instance.domElement.style.height = '100%'
 
-        // this.instance.setClearColor(0x414141, 1)
         this.instance.setClearColor(this.clearColor, 1)
         this.instance.setSize(this.config.width, this.config.height)
         this.instance.setPixelRatio(this.config.pixelRatio)
 
-        // this.instance.physicallyCorrectLights = true
-        // this.instance.gammaOutPut = true
         this.instance.outputEncoding = THREE.sRGBEncoding
-        // this.instance.shadowMap.type = THREE.PCFSoftShadowMap
-        // this.instance.shadowMap.enabled = false
-        // this.instance.toneMapping = THREE.ReinhardToneMapping
-        // this.instance.toneMappingExposure = 1.3
 
         this.context = this.instance.getContext()
 
@@ -57,6 +50,29 @@ export default class Renderer
         {
             this.stats.setRenderPanel(this.context)
         }
+        
+        this.setGradientBackground()
+    }
+    
+    setGradientBackground()
+    {
+        const canvas = document.createElement('canvas')
+        canvas.width = 2
+        canvas.height = 512
+        const ctx = canvas.getContext('2d')
+        
+        const gradient = ctx.createLinearGradient(0, 0, 0, 512)
+        gradient.addColorStop(0, '#020208')
+        gradient.addColorStop(0.5, '#0a0a18')
+        gradient.addColorStop(1, '#101020')
+        
+        ctx.fillStyle = gradient
+        ctx.fillRect(0, 0, 2, 512)
+        
+        const texture = new THREE.CanvasTexture(canvas)
+        texture.needsUpdate = true
+        
+        this.scene.background = texture
     }
 
     setPostProcess()

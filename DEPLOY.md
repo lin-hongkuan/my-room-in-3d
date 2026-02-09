@@ -8,20 +8,18 @@
 
 ### 1.1 若项目还没推到 GitHub
 
-1. 在 [GitHub](https://github.com) 新建一个仓库（例如 `my-room-in-3d`），不要勾选「Add a README」。
-2. 本地在项目根目录执行（把 `你的用户名`、`my-room-in-3d` 换成你的）：
+1. 用下面链接**一键创建空仓库**（已填好仓库名，用 **lin-hongkuan** 账号登录后打开）：  
+   **https://github.com/new?name=my-room-in-3d**  
+   打开后选 **Public**，**不要**勾选 “Add a README file”，点 **Create repository**。
+
+2. 本地在项目根目录执行（远程已设为 `lin-hongkuan/my-room-in-3d`，只需推送）：
 
 ```bash
 cd f:\roomtour\my-room-in-3d
-git init
-git add .
-git commit -m "Initial commit"
-git branch -M main
-git remote add origin https://github.com/你的用户名/my-room-in-3d.git
 git push -u origin main
 ```
 
-3. 确认浏览器里能在该仓库看到代码（含 `src`、`bundler`、`functions`、`static`、`package.json` 等）。
+3. 确认浏览器里打开 https://github.com/lin-hongkuan/my-room-in-3d 能看到代码（含 `src`、`bundler`、`functions`、`static`、`package.json` 等）。
 
 ### 1.2 若已经在 GitHub
 

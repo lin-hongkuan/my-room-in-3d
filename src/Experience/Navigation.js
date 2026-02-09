@@ -17,6 +17,9 @@ export default class Navigation
 
         this.setPresets()
         this.setView()
+        
+        this.autoRotate = true
+        this.autoRotateSpeed = 0.00001
     }
 
     setPresets()
@@ -74,6 +77,20 @@ export default class Navigation
                     targetX: { min: 3, max: 5 },
                     targetY: { min: 2, max: 3.5 },
                     targetZ: { min: 0.5, max: 2.5 }
+                },
+                allowDrag: false,
+                allowZoom: false
+            },
+            bookshelf: {
+                spherical: new THREE.Spherical(8, Math.PI * 0.35, -Math.PI * 0.2),
+                target: new THREE.Vector3(-3.7, 4.7, -4.0),
+                limits: {
+                    radius: { min: 6, max: 10 },
+                    phi: { min: 0.25, max: 0.45 },
+                    theta: { min: -0.4, max: 0 },
+                    targetX: { min: -4.5, max: -3 },
+                    targetY: { min: 4, max: 5.5 },
+                    targetZ: { min: -5, max: -3 }
                 },
                 allowDrag: false,
                 allowZoom: false
@@ -338,6 +355,23 @@ export default class Navigation
         const preset = this.presets[this.viewState]
         const allowZoom = preset && preset.allowZoom
         const allowDrag = preset && preset.allowDrag
+
+        if (this.autoRotate && this.viewState === 'default')
+        {
+            this.view.spherical.value.theta += this.autoRotateSpeed * this.time.delta
+            
+            const limits = this.view.spherical.limits.theta
+            if (this.view.spherical.value.theta > limits.max)
+            {
+                this.view.spherical.value.theta = limits.max
+                this.autoRotateSpeed = -Math.abs(this.autoRotateSpeed)
+            }
+            else if (this.view.spherical.value.theta < limits.min)
+            {
+                this.view.spherical.value.theta = limits.min
+                this.autoRotateSpeed = Math.abs(this.autoRotateSpeed)
+            }
+        }
 
         /**
          * View
