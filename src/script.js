@@ -404,7 +404,7 @@ function init() {
             })
             .catch(() => {})
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'F12') {
+            if (e.ctrlKey && e.key === 'F12') {
                 e.preventDefault()
                 devPanel.classList.toggle('is-visible')
                 devPanel.setAttribute('aria-hidden', devPanel.classList.contains('is-visible') ? 'false' : 'true')
