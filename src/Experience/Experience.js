@@ -44,6 +44,9 @@ export default class Experience
         this.setCamera()
         this.setRenderer()
         this.setResources()
+        this.settingsReady = false
+        this.pendingSettings = null
+        this.isApplyingSettings = false
         this.setWorld()
         this.setNavigation()
         this.setInteraction()
@@ -104,8 +107,8 @@ export default class Experience
             this.debug.containerElem_.style.width = '320px'
             this.debug.containerElem_.style.display = 'none'
 
-            // 监听参数变化，触发回调
             this.debug.on('change', () => {
+                if (this.isApplyingSettings) return
                 if (typeof this.onSettingsChange === 'function') {
                     this.onSettingsChange()
                 }
@@ -136,8 +139,15 @@ export default class Experience
 
     setSettings(data)
     {
-        if (this.debug && data) {
+        if (!data) return
+        if (!this.settingsReady) {
+            this.pendingSettings = data
+            return
+        }
+        if (this.debug) {
+            this.isApplyingSettings = true
             this.debug.importPreset(data)
+            setTimeout(() => { this.isApplyingSettings = false }, 0)
         }
     }
     
@@ -161,6 +171,16 @@ export default class Experience
     setResources()
     {
         this.resources = new Resources(assets)
+        this.resources.on('end', () =>
+        {
+            this.settingsReady = true
+            if (this.pendingSettings)
+            {
+                const pending = this.pendingSettings
+                this.pendingSettings = null
+                this.setSettings(pending)
+            }
+        })
     }
 
     setWorld()
