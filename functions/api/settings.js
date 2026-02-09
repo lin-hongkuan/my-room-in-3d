@@ -35,11 +35,9 @@ export async function onRequestPost(context) {
   }
   try {
     const body = await request.json()
-    const data = {
-      showSettings: Boolean(body.showSettings),
-    }
-    await kv.put(KEY, JSON.stringify(data))
-    return json(data)
+    // 保存完整数据，不只是 showSettings
+    await kv.put(KEY, JSON.stringify(body))
+    return json(body)
   } catch (e) {
     return json({ error: String(e.message) }, 400)
   }

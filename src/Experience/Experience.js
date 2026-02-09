@@ -103,6 +103,13 @@ export default class Experience
             this.debug = new Pane({ title: '设置' })
             this.debug.containerElem_.style.width = '320px'
             this.debug.containerElem_.style.display = 'none'
+
+            // 监听参数变化，触发回调
+            this.debug.on('change', () => {
+                if (typeof this.onSettingsChange === 'function') {
+                    this.onSettingsChange()
+                }
+            })
         }
     }
 
@@ -116,6 +123,21 @@ export default class Experience
         if(this.debug && this.debug.containerElem_)
         {
             this.debug.containerElem_.style.display = visible ? 'block' : 'none'
+        }
+    }
+
+    getSettings()
+    {
+        if (this.debug) {
+            return this.debug.exportPreset()
+        }
+        return null
+    }
+
+    setSettings(data)
+    {
+        if (this.debug && data) {
+            this.debug.importPreset(data)
         }
     }
     

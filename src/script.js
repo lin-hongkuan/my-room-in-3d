@@ -392,17 +392,53 @@ function init() {
     const devPanel = document.getElementById('devPanel')
     const devPanelToggle = document.getElementById('devPanelToggle')
     if (devPanel && devPanelToggle) {
+        let currentSettings = { showSettings: false, preset: null }
+
+        const debounce = (func, wait) => {
+            let timeout
+            return (...args) => {
+                clearTimeout(timeout)
+                timeout = setTimeout(() => func.apply(this, args), wait)
+            }
+        }
+
+        const saveSettings = debounce(() => {
+            if (window.experience && typeof window.experience.getSettings === 'function') {
+                const preset = window.experience.getSettings()
+                if (preset) currentSettings.preset = preset
+            }
+            currentSettings.showSettings = devPanelToggle.checked
+
+            fetch('/api/settings', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(currentSettings),
+            }).catch(() => {})
+        }, 1000)
+
+        // 绑定 Experience 的回调
+        if (window.experience) {
+            window.experience.onSettingsChange = saveSettings
+        }
+
         fetch('/api/settings')
             .then((r) => r.json())
             .then((data) => {
-                if (data && data.showSettings) {
-                    devPanelToggle.checked = true
-                    if (window.experience && typeof window.experience.setDebugPanelVisible === 'function') {
-                        window.experience.setDebugPanelVisible(true)
+                if (data) {
+                    currentSettings = data
+                    if (data.showSettings) {
+                        devPanelToggle.checked = true
+                        if (window.experience && typeof window.experience.setDebugPanelVisible === 'function') {
+                            window.experience.setDebugPanelVisible(true)
+                        }
+                    }
+                    if (data.preset && window.experience && typeof window.experience.setSettings === 'function') {
+                        window.experience.setSettings(data.preset)
                     }
                 }
             })
             .catch(() => {})
+
         document.addEventListener('keydown', (e) => {
             if (e.ctrlKey && e.key === 'F12') {
                 e.preventDefault()
@@ -412,14 +448,10 @@ function init() {
         })
         devPanelToggle.addEventListener('change', () => {
             const checked = devPanelToggle.checked
-            fetch('/api/settings', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ showSettings: checked }),
-            }).catch(() => {})
             if (window.experience && typeof window.experience.setDebugPanelVisible === 'function') {
                 window.experience.setDebugPanelVisible(checked)
             }
+            saveSettings()
         })
     }
 }
