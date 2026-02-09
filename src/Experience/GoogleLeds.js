@@ -47,15 +47,26 @@ export default class GoogleLeds
 
             return 0
         })
+        // Debug
+        if(this.debug)
+        {
+            this.debugParams = {}
+        }
         
         let i = 0
         for(const _child of children)
         {
             const item = {}
+            const index = i // Capture loop variable
 
             item.index = i
 
             item.color = colors[item.index]
+            
+            // Set initial debug param
+            if(this.debug) {
+                this.debugParams[`color${index}`] = item.color
+            }
 
             item.material = new THREE.MeshBasicMaterial({
                 color: item.color,
@@ -74,13 +85,13 @@ export default class GoogleLeds
             {
                 this.debugFolder
                     .addInput(
-                        item,
-                        'color',
-                        { view: 'color' }
+                        this.debugParams,
+                        `color${index}`,
+                        { view: 'color', label: `LED ${index+1}` }
                     )
                     .on('change', () =>
                     {
-                        item.material.color.set(item.color)
+                        item.material.color.set(this.debugParams[`color${index}`])
                     })
             }
 

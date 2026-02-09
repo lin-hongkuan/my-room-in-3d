@@ -89,25 +89,39 @@ export default class CoffeeSteam
         // Debug
         if(this.debug)
         {
-            this.debugFolder
-                .addInput(
-                    this.model.material.uniforms.uNightMix,
-                    'value',
-                    { label: '昼夜混合', min: 0, max: 1 }
-                )
+            this.debugParams = {
+                nightMix: this.model.material.uniforms.uNightMix.value,
+                neutralMix: this.model.material.uniforms.uNeutralMix.value,
+                tvStrength: this.model.material.uniforms.uLightTvStrength.value,
+                deskStrength: this.model.material.uniforms.uLightDeskStrength.value,
+                pcStrength: this.model.material.uniforms.uLightPcStrength.value,
+            }
 
             this.debugFolder
                 .addInput(
-                    this.model.material.uniforms.uNeutralMix,
-                    'value',
+                    this.debugParams,
+                    'nightMix',
+                    { label: '昼夜混合', min: 0, max: 1 }
+                )
+                .on('change', () => {
+                    this.model.material.uniforms.uNightMix.value = this.debugParams.nightMix
+                })
+
+            this.debugFolder
+                .addInput(
+                    this.debugParams,
+                    'neutralMix',
                     { label: '中性混合', min: 0, max: 1 }
                 )
+                .on('change', () => {
+                    this.model.material.uniforms.uNeutralMix.value = this.debugParams.neutralMix
+                })
 
             this.debugFolder
                 .addInput(
                     this.colors,
                     'tv',
-                    { view: 'color' }
+                    { view: 'color', label: 'tv' }
                 )
                 .on('change', () =>
                 {
@@ -116,16 +130,19 @@ export default class CoffeeSteam
 
             this.debugFolder
                 .addInput(
-                    this.model.material.uniforms.uLightTvStrength,
-                    'value',
+                    this.debugParams,
+                    'tvStrength',
                     { label: '电视光强度', min: 0, max: 3 }
                 )
+                .on('change', () => {
+                    this.model.material.uniforms.uLightTvStrength.value = this.debugParams.tvStrength
+                })
 
             this.debugFolder
                 .addInput(
                     this.colors,
                     'desk',
-                    { view: 'color' }
+                    { view: 'color', label: 'desk' }
                 )
                 .on('change', () =>
                 {
@@ -134,16 +151,19 @@ export default class CoffeeSteam
 
             this.debugFolder
                 .addInput(
-                    this.model.material.uniforms.uLightDeskStrength,
-                    'value',
+                    this.debugParams,
+                    'deskStrength',
                     { label: '桌面光强度', min: 0, max: 3 }
                 )
+                .on('change', () => {
+                    this.model.material.uniforms.uLightDeskStrength.value = this.debugParams.deskStrength
+                })
 
             this.debugFolder
                 .addInput(
                     this.colors,
                     'pc',
-                    { view: 'color' }
+                    { view: 'color', label: 'pc' }
                 )
                 .on('change', () =>
                 {
@@ -152,10 +172,13 @@ export default class CoffeeSteam
 
             this.debugFolder
                 .addInput(
-                    this.model.material.uniforms.uLightPcStrength,
-                    'value',
+                    this.debugParams,
+                    'pcStrength',
                     { label: '电脑光强度', min: 0, max: 3 }
                 )
+                .on('change', () => {
+                    this.model.material.uniforms.uLightPcStrength.value = this.debugParams.pcStrength
+                })
         }
     }
 }

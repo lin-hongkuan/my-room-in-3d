@@ -54,42 +54,58 @@ export default class CoffeeSteam
 
         if(this.debug)
         {
+            this.debugParams = {
+                color: this.model.color,
+                timeFrequency: this.model.material.uniforms.uTimeFrequency.value,
+                uvX: this.model.material.uniforms.uUvFrequency.value.x,
+                uvY: this.model.material.uniforms.uUvFrequency.value.y
+            }
+
             this.debugFolder.addInput(
-                this.model,
+                this.debugParams,
                 'color',
                 {
-                    view: 'color'
+                    view: 'color', label: '蒸汽颜色'
                 }
             )
             .on('change', () =>
             {
-                this.model.material.uniforms.uColor.value.set(this.model.color)
+                this.model.material.uniforms.uColor.value.set(this.debugParams.color)
             })
             
             
             this.debugFolder.addInput(
-                this.model.material.uniforms.uTimeFrequency,
-                'value',
+                this.debugParams,
+                'timeFrequency',
                 {
                     label: '时间频率', min: 0.0001, max: 0.001, step: 0.0001
                 }
             )
+            .on('change', () => {
+                this.model.material.uniforms.uTimeFrequency.value = this.debugParams.timeFrequency
+            })
             
             this.debugFolder.addInput(
-                this.model.material.uniforms.uUvFrequency.value,
-                'x',
+                this.debugParams,
+                'uvX',
                 {
                     label: 'UV 频率 X', min: 0.001, max: 20, step: 0.001
                 }
             )
+            .on('change', () => {
+                this.model.material.uniforms.uUvFrequency.value.x = this.debugParams.uvX
+            })
             
             this.debugFolder.addInput(
-                this.model.material.uniforms.uUvFrequency.value,
-                'y',
+                this.debugParams,
+                'uvY',
                 {
                     label: 'UV 频率 Y', min: 0.001, max: 20, step: 0.001
                 }
             )
+            .on('change', () => {
+                this.model.material.uniforms.uUvFrequency.value.y = this.debugParams.uvY
+            })
         }
     }
 
