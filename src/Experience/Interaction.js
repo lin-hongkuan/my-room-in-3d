@@ -164,7 +164,7 @@ setMeshHover(mesh, hovered)
         }
     }
 
-    onTouchStart(event)
+onTouchStart(event)
     {
         if (this.hotspotList.length === 0) return
         if (event.touches.length > 0)
@@ -176,6 +176,11 @@ setMeshHover(mesh, hovered)
                 event.preventDefault()
                 this.navigation.setViewState(state)
                 if (this.onViewStateChange) this.onViewStateChange(state)
+            }
+            else if (!state && this.navigation.viewState !== 'default')
+            {
+                this.navigation.goToDefault()
+                if (this.onViewStateChange) this.onViewStateChange('default')
             }
         }
     }

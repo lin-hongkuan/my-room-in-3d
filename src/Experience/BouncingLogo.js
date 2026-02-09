@@ -18,36 +18,33 @@ export default class BouncingLogo
         this.model = {}
 
         this.model.group = new THREE.Group()
-        this.model.group.position.set(4.17, 2.717, 1.64)
+        this.model.group.position.set(4.19, 2.67, 1.82)
         this.scene.add(this.model.group)
-        // 电视 logo 固定位置，略前于屏幕平面避免被挡住
 
-        this.model.texture = this.resources.items.threejsJourneyLogoTexture
+        this.model.element = document.createElement('video')
+        this.model.element.muted = true
+        this.model.element.loop = true
+        this.model.element.playsInline = true
+        this.model.element.autoplay = true
+        this.model.element.src = '/assets/videoStream.mp4'
+        this.model.element.play().catch(() => {})
+
+        this.model.texture = new THREE.VideoTexture(this.model.element)
         this.model.texture.encoding = THREE.sRGBEncoding
 
-        this.model.geometry = new THREE.PlaneGeometry(4, 1, 1, 1)
+        this.model.geometry = new THREE.PlaneGeometry(4.28, 2.42, 1, 1)
         this.model.geometry.rotateY(- Math.PI * 0.5)
 
         this.model.material = new THREE.MeshBasicMaterial({
-            transparent: true,
-            premultipliedAlpha: true,
-            map: this.model.texture,
-            depthWrite: false
+            map: this.model.texture
         })
 
         this.model.mesh = new THREE.Mesh(this.model.geometry, this.model.material)
-        this.model.mesh.scale.y = 0.359
-        this.model.mesh.scale.z = 0.424
-        this.model.mesh.position.z = 0
-        this.model.mesh.position.y = 0
         this.model.mesh.renderOrder = 1
         this.model.group.add(this.model.mesh)
     }
 
     update()
     {
-        // 电视 logo 固定居中，不再弹跳，避免移出屏幕或被挡住
-        this.model.mesh.position.z = 0
-        this.model.mesh.position.y = 0
     }
 }

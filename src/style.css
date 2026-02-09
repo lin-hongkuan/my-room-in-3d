@@ -229,8 +229,11 @@ body
         padding: 0.3rem 0.6rem;
     }
     .audio-toggle {
-        bottom: 48px;
-        left: 12px;
+        bottom: 12px;
+        bottom: calc(12px + env(safe-area-inset-bottom));
+        left: auto;
+        right: 12px;
+        right: calc(12px + env(safe-area-inset-right));
         width: 36px;
         height: 36px;
         font-size: 16px;

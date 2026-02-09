@@ -22,10 +22,13 @@ export default class Camera
         this.setModes()
     }
 
-    setInstance()
+setInstance()
     {
-        // Set up
-        this.instance = new THREE.PerspectiveCamera(20, this.config.width / this.config.height, 0.1, 150)
+        const aspect = this.config.width / this.config.height
+        const isPortrait = aspect < 1
+        const baseFov = isPortrait ? 35 : 20
+        
+        this.instance = new THREE.PerspectiveCamera(baseFov, aspect, 0.1, 150)
         this.instance.rotation.reorder('YXZ')
 
         this.scene.add(this.instance)
@@ -56,15 +59,22 @@ export default class Camera
     }
 
 
-    resize()
+resize()
     {
-        this.instance.aspect = this.config.width / this.config.height
+        const aspect = this.config.width / this.config.height
+        const isPortrait = aspect < 1
+        const baseFov = isPortrait ? 35 : 20
+        
+        this.instance.fov = baseFov
+        this.instance.aspect = aspect
         this.instance.updateProjectionMatrix()
 
-        this.modes.default.instance.aspect = this.config.width / this.config.height
+        this.modes.default.instance.fov = baseFov
+        this.modes.default.instance.aspect = aspect
         this.modes.default.instance.updateProjectionMatrix()
 
-        this.modes.debug.instance.aspect = this.config.width / this.config.height
+        this.modes.debug.instance.fov = baseFov
+        this.modes.debug.instance.aspect = aspect
         this.modes.debug.instance.updateProjectionMatrix()
     }
 

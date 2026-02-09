@@ -195,13 +195,16 @@ export default class Navigation
     {
         this.view = {}
 
+        const aspect = this.config.width / this.config.height
+        const isPortrait = aspect < 1
+        const defaultRadius = isPortrait ? 42 : 30
+
         this.view.spherical = {}
-        this.view.spherical.value = new THREE.Spherical(30, Math.PI * 0.35, - Math.PI * 0.25)
-        // this.view.spherical.value.radius = 5
+        this.view.spherical.value = new THREE.Spherical(defaultRadius, Math.PI * 0.35, - Math.PI * 0.25)
         this.view.spherical.smoothed = this.view.spherical.value.clone()
         this.view.spherical.smoothing = 0.005
         this.view.spherical.limits = {}
-        this.view.spherical.limits.radius = { min: 10, max: 50 }
+        this.view.spherical.limits.radius = { min: 10, max: 60 }
         this.view.spherical.limits.phi = { min: 0.01, max: Math.PI * 0.5 }
         this.view.spherical.limits.theta = { min: - Math.PI * 0.5, max: 0 }
 
@@ -294,11 +297,21 @@ export default class Navigation
         /**
          * Touch events
          */
+        this.view.pinch = {}
+        this.view.pinch.distance = 0
+        
         this.view.onTouchStart = (_event) =>
         {
             _event.preventDefault()
 
             this.view.drag.alternative = _event.touches.length > 1
+
+            if (_event.touches.length === 2)
+            {
+                const dx = _event.touches[0].clientX - _event.touches[1].clientX
+                const dy = _event.touches[0].clientY - _event.touches[1].clientY
+                this.view.pinch.distance = Math.sqrt(dx * dx + dy * dy)
+            }
 
             this.view.down(_event.touches[0].clientX, _event.touches[0].clientY)
 
@@ -310,13 +323,31 @@ export default class Navigation
         {
             _event.preventDefault()
             
-            this.view.move(_event.touches[0].clientX, _event.touches[0].clientY)
+            if (_event.touches.length === 2)
+            {
+                const dx = _event.touches[0].clientX - _event.touches[1].clientX
+                const dy = _event.touches[0].clientY - _event.touches[1].clientY
+                const newDistance = Math.sqrt(dx * dx + dy * dy)
+                
+                if (this.view.pinch.distance > 0)
+                {
+                    const delta = (this.view.pinch.distance - newDistance) * 5.0
+                    this.view.zoomIn(delta)
+                }
+                
+                this.view.pinch.distance = newDistance
+            }
+            else if (_event.touches.length === 1)
+            {
+                this.view.move(_event.touches[0].clientX, _event.touches[0].clientY)
+            }
         }
 
         this.view.onTouchEnd = (_event) =>
         {
             _event.preventDefault()
             
+            this.view.pinch.distance = 0
             this.view.up()
 
             window.removeEventListener('touchend', this.view.onTouchEnd)

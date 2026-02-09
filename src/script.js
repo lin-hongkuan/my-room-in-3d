@@ -91,24 +91,19 @@ const AudioManager = (() => {
     }
 
     function toggleBGM() {
+        getAudioContext()
+        
         if (!bgm) initBGM()
         
-        if (bgmReady) {
-            if (bgm.paused) {
-                bgm.play().catch(() => {})
-                return true
-            } else {
-                bgm.pause()
-                return false
-            }
-        }
-        
         if (bgm.paused) {
-            bgm.play().then(() => {
-                stopSynthBGM()
-            }).catch(() => {
-                startSynthBGM()
-            })
+            const playPromise = bgm.play()
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    stopSynthBGM()
+                }).catch(() => {
+                    startSynthBGM()
+                })
+            }
             return true
         } else {
             bgm.pause()
@@ -352,7 +347,9 @@ function init() {
     }
 
     if (audioToggle) {
-        audioToggle.addEventListener('click', () => {
+        const handleAudioToggle = (e) => {
+            e.preventDefault()
+            e.stopPropagation()
             const playing = AudioManager.toggleBGM()
             if (playing) {
                 audioToggle.classList.add('is-playing')
@@ -360,23 +357,31 @@ function init() {
                 audioToggle.classList.remove('is-playing')
             }
             AudioManager.playClick()
-        })
+        }
+        audioToggle.addEventListener('click', handleAudioToggle)
+        audioToggle.addEventListener('touchend', handleAudioToggle)
     }
 
     if (modalClose) {
-        modalClose.addEventListener('click', () => {
+        const handleClose = (e) => {
+            e.preventDefault()
             AudioManager.playClick()
             dismissModal()
-        })
+        }
+        modalClose.addEventListener('click', handleClose)
+        modalClose.addEventListener('touchend', handleClose)
     }
 
     if (modalOverlay) {
-        modalOverlay.addEventListener('click', (e) => {
+        const handleOverlayClose = (e) => {
             if (e.target === modalOverlay) {
+                e.preventDefault()
                 AudioManager.playClick()
                 dismissModal()
             }
-        })
+        }
+        modalOverlay.addEventListener('click', handleOverlayClose)
+        modalOverlay.addEventListener('touchend', handleOverlayClose)
     }
 
     if (window.experience.navigation) {
