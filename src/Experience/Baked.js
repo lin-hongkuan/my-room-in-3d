@@ -81,6 +81,11 @@ export default class CoffeeSteam
             if(_child instanceof THREE.Mesh)
             {
                 _child.material = this.model.material
+
+                if(_child.position.distanceTo(new THREE.Vector3(4.19, 2.67, 1.82)) < 0.1)
+                {
+                    this.tvMesh = _child
+                }
             }
         })
 

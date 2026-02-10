@@ -192,7 +192,7 @@ function init() {
             intro: '喜欢写代码和做 3D 小项目，这个房间是用 Three.js 搭的。博客里会记一些技术笔记和日常。',
             cards: [
                 {
-                    href: 'https://blog.linhk.top',
+                    href: '/sites/blog.html',
                     img: '/imgs/Cover-Keyboard.jpg',
                     title: '个人博客',
                     desc: '记录技术与生活的博客 · blog.linhk.top'
@@ -210,19 +210,19 @@ function init() {
             subtitle: '开发和效率相关的小工具',
             cards: [
                 {
-                    href: 'https://excalidraw.com/',
+                    href: '/sites/excalidraw.html',
                     img: '/imgs/vue-chemistry.jpg',
                     title: 'Excalidraw',
                     desc: '手绘风白板 · 画原型/草图'
                 },
                 {
-                    href: 'https://carbon.now.sh/',
+                    href: '/sites/carbon.html',
                     img: '/imgs/Cover-Pkg.jpg',
                     title: 'Carbon',
                     desc: '将代码片段导出为漂亮图片'
                 },
                 {
-                    href: 'https://codepen.io/',
+                    href: '/sites/codepen.html',
                     img: '/imgs/Cover-hyper.jpg',
                     title: 'CodePen',
                     desc: '在线前端实验与分享'
@@ -240,13 +240,13 @@ function init() {
                     desc: 'Super Mario Advance 4 · GBA 模拟器'
                 },
                 {
-                    href: 'https://github.com/',
+                    href: '/sites/github.html',
                     img: '/imgs/Cover-Artstation.jpg',
                     title: 'GitHub',
                     desc: '开源代码托管与协作平台'
                 },
                 {
-                    href: 'https://developer.mozilla.org/',
+                    href: '/sites/mdn.html',
                     img: '/imgs/Cover-Archimason.jpg',
                     title: 'MDN Web Docs',
                     desc: 'Web 开发文档与示例'
@@ -258,25 +258,25 @@ function init() {
             subtitle: '我喜欢的书籍、电影和音乐',
             cards: [
                 {
-                    href: 'https://book.douban.com/',
+                    href: '/sites/douban-books.html',
                     img: '/imgs/Cover-Keyboard.jpg',
                     title: '豆瓣读书',
                     desc: '发现好书 · 记录阅读'
                 },
                 {
-                    href: 'https://movie.douban.com/',
+                    href: '/sites/douban-movies.html',
                     img: '/imgs/Cover-KOB.jpg',
                     title: '豆瓣电影',
                     desc: '电影评分与影评社区'
                 },
                 {
-                    href: 'https://music.163.com/',
+                    href: '/sites/netease-music.html',
                     img: '/imgs/Cover-hyper.jpg',
                     title: '网易云音乐',
                     desc: '发现音乐 · 分享感动'
                 },
                 {
-                    href: 'https://www.bilibili.com/',
+                    href: '/sites/bilibili.html',
                     img: '/imgs/Cover-Questopia.jpg',
                     title: 'Bilibili',
                     desc: '视频弹幕网站 · 学习娱乐'
@@ -461,4 +461,3 @@ if (document.readyState === 'loading') {
 } else {
     init()
 }
-

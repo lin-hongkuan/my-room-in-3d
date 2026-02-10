@@ -6,7 +6,6 @@ import LoupedeckButtons from './LoupedeckButtons.js'
 import CoffeeSteam from './CoffeeSteam.js'
 import TopChair from './TopChair.js'
 import ElgatoLight from './ElgatoLight.js'
-import BouncingLogo from './BouncingLogo.js'
 import Screen from './Screen.js'
 
 export default class World
@@ -28,7 +27,6 @@ export default class World
                 this.setCoffeeSteam()
                 this.setTopChair()
                 this.setElgatoLight()
-                this.setBouncingLogo()
                 this.setScreens()
                 this.setTV()
                 this.setBookshelf()
@@ -83,11 +81,6 @@ export default class World
         this.elgatoLight = new ElgatoLight()
     }
 
-    setBouncingLogo()
-    {
-        this.bouncingLogo = new BouncingLogo()
-    }
-
     setScreens()
     {
         this.pcScreen = new Screen(
@@ -102,17 +95,27 @@ export default class World
 
     setTV()
     {
-        const geo = new THREE.PlaneGeometry(4.28, 2.42)
-        const mat = new THREE.MeshBasicMaterial({
-            transparent: true,
-            opacity: 0,
-            side: THREE.DoubleSide
-        })
-        this.tvMesh = new THREE.Mesh(geo, mat)
-        this.tvMesh.position.set(4.19, 2.67, 1.82)
-        this.tvMesh.rotation.y = -1.57
-        this.tvMesh.userData.isTransparentHotspot = true
-        this.scene.add(this.tvMesh)
+        if(this.baked.tvMesh)
+        {
+            this.tvMesh = this.baked.tvMesh
+        }
+        else
+        {
+            const geo = new THREE.PlaneGeometry(4.28, 2.42)
+            const mat = new THREE.MeshBasicMaterial({
+                transparent: true,
+                opacity: 0,
+                side: THREE.DoubleSide
+            })
+            this.tvMesh = new THREE.Mesh(geo, mat)
+            this.tvMesh.position.set(4.19, 2.67, 1.82)
+            this.tvMesh.rotation.y = -1.57
+        }
+        
+        this.tvScreen = new Screen(
+            this.tvMesh,
+            '/assets/videoGame.mp4'
+        )
     }
 
     setBookshelf()
@@ -148,8 +151,6 @@ export default class World
         if(this.topChair)
             this.topChair.update()
 
-        if(this.bouncingLogo)
-            this.bouncingLogo.update()
     }
 
     destroy()
