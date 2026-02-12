@@ -44,16 +44,16 @@ export default class Experience
         this.setCamera()
         this.setRenderer()
         this.setResources()
+        this.setNavigation()
+        this.setInteraction()
         this.settingsReady = false
         this.pendingSettings = null
         this.isApplyingSettings = false
         
-        // 异步获取项目配置后再初始化世界
+        // 异步获取项目配置后再初始化世界（因为世界里的视频需要配置）
         this.projectsConfig = null
-        this.fetchProjectsConfig().then(() => {
+        this.fetchProjectsConfig().finally(() => {
             this.setWorld()
-            this.setNavigation()
-            this.setInteraction()
         })
 
         this.sizes.on('resize', () =>

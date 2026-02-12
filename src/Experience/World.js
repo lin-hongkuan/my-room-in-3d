@@ -21,34 +21,48 @@ export default class World
         {
             if(_group.name === 'base')
             {
-                this.setBaked()
-                this.setGoogleLeds()
-                this.setLoupedeckButtons()
-                this.setCoffeeSteam()
-                this.setTopChair()
-                this.setElgatoLight()
-                this.setScreens()
-                this.setTV()
-                this.setBookshelf()
-                if (this.experience.interaction)
-                {
-                    this.experience.interaction.setHotspots({
-                        pcScreen: this.pcScreen.model.mesh,
-                        macScreen: this.macScreen.model.mesh,
-                        tv: this.tvMesh,
-                        bookshelf: this.bookshelfMesh
-                    })
-                }
-                const nav = this.experience.navigation
-                if (nav && nav.setPresetFromMesh)
-                {
-                    nav.setPresetFromMesh('pcScreen', this.pcScreen.model.mesh, 6)
-                    nav.setPresetFromMesh('macScreen', this.macScreen.model.mesh, 6)
-                    nav.setPresetFromMesh('tv', this.tvMesh, 5)
-                    nav.setPresetFromMesh('bookshelf', this.bookshelfMesh, 5)
-                }
+                this.init()
             }
         })
+
+        // 预防：如果资源已经加载完了（groupEnd 已经发生过），手动触发初始化
+        if(this.resources.groups.base && this.resources.groups.base.loaded)
+        {
+            this.init()
+        }
+    }
+
+    init()
+    {
+        if(this.initiated) return
+        this.initiated = true
+
+        this.setBaked()
+        this.setGoogleLeds()
+        this.setLoupedeckButtons()
+        this.setCoffeeSteam()
+        this.setTopChair()
+        this.setElgatoLight()
+        this.setScreens()
+        this.setTV()
+        this.setBookshelf()
+        if (this.experience.interaction)
+        {
+            this.experience.interaction.setHotspots({
+                pcScreen: this.pcScreen.model.mesh,
+                macScreen: this.macScreen.model.mesh,
+                tv: this.tvMesh,
+                bookshelf: this.bookshelfMesh
+            })
+        }
+        const nav = this.experience.navigation
+        if (nav && nav.setPresetFromMesh)
+        {
+            nav.setPresetFromMesh('pcScreen', this.pcScreen.model.mesh, 6)
+            nav.setPresetFromMesh('macScreen', this.macScreen.model.mesh, 6)
+            nav.setPresetFromMesh('tv', this.tvMesh, 5)
+            nav.setPresetFromMesh('bookshelf', this.bookshelfMesh, 5)
+        }
     }
 
     setBaked()
