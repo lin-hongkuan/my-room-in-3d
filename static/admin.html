@@ -66,9 +66,18 @@
                             </button>
                             <div class="grid grid-cols-3 gap-4">
                                 <div class="col-span-1">
-                                    <label class="block text-xs font-bold text-gray-500 mb-1 uppercase">预览图 URL</label>
-                                    <input v-model="card.img" class="w-full border rounded p-2 text-xs mb-2">
-                                    <div class="aspect-video bg-gray-200 rounded overflow-hidden">
+                                    <label class="block text-xs font-bold text-gray-500 mb-1 uppercase">预览图</label>
+                                    <input v-model="card.img" class="w-full border rounded p-2 text-xs mb-2" placeholder="图片 URL">
+                                    
+                                    <!-- 上传按钮 -->
+                                    <div class="relative mb-2">
+                                        <input type="file" @change="e => uploadFile(e, card)" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" accept="image/*">
+                                        <div class="bg-blue-50 text-blue-600 text-center py-1 rounded text-xs border border-blue-200 border-dashed hover:bg-blue-100 transition">
+                                            {{ card.uploading ? '上传中...' : '点击上传新图' }}
+                                        </div>
+                                    </div>
+
+                                    <div class="aspect-video bg-gray-200 rounded overflow-hidden shadow-inner">
                                         <img :src="card.img" class="w-full h-full object-cover" @error="e => e.target.src='https://via.placeholder.com/300x200?text=Invalid+Image'">
                                     </div>
                                 </div>
@@ -111,13 +120,40 @@
                 const fetchConfig = async () => {
                     try {
                         const res = await fetch('/api/projects')
-                        config.ref = await res.json()
-                        config.value = config.ref // Correcting Vue ref assignment
+                        config.value = await res.json()
                     } catch (e) {
                         alert('加载配置失败')
                     } finally {
-                        loading.ref = false
                         loading.value = false
+                    }
+                }
+
+                const uploadFile = async (event, card) => {
+                    const file = event.target.files[0]
+                    if (!file) return
+
+                    const formData = new FormData()
+                    formData.append('file', file)
+
+                    card.uploading = true
+                    try {
+                        const res = await fetch('/api/upload', {
+                            method: 'POST',
+                            headers: {
+                                'Authorization': `Bearer ${token.value}`
+                            },
+                            body: formData
+                        })
+                        const result = await res.json()
+                        if (result.success) {
+                            card.img = result.url
+                        } else {
+                            alert('上传失败: ' + (result.error || '未知错误'))
+                        }
+                    } catch (e) {
+                        alert('上传出错，请检查 R2 绑定或网络')
+                    } finally {
+                        card.uploading = false
                     }
                 }
 
@@ -165,7 +201,7 @@
 
                 return {
                     config, loading, saving, token,
-                    saveAll, addCard, removeCard
+                    saveAll, addCard, removeCard, uploadFile
                 }
             }
         }).mount('#app')
