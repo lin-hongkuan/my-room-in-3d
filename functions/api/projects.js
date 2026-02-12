@@ -10,6 +10,7 @@ const DEFAULT_CONFIG = {
         title: 'About Me',
         subtitle: '一些关于我的链接',
         intro: '喜欢写代码和做 3D 小项目，这个房间是用 Three.js 搭的。',
+        video: '/assets/videoPortfolio.mp4',
         cards: [
             {
                 href: 'https://blog.linhk.top',
@@ -28,6 +29,7 @@ const DEFAULT_CONFIG = {
     macScreen: {
         title: '实用工具',
         subtitle: '开发和效率相关的小工具',
+        video: '/assets/videoStream.mp4',
         cards: [
             {
                 href: 'https://excalidraw.com',
@@ -46,6 +48,7 @@ const DEFAULT_CONFIG = {
     tv: {
         title: '我的网站',
         subtitle: '一些想推荐给你的站点',
+        video: '/assets/videoGame.mp4',
         cards: [
             {
                 href: 'https://www.google.com',

@@ -83,13 +83,22 @@ export default class World
 
     setScreens()
     {
+        // 尝试从 API 配置中获取视频路径，如果没有则使用默认值
+        const pcVideo = (this.experience.projectsConfig && this.experience.projectsConfig.pcScreen && this.experience.projectsConfig.pcScreen.video) 
+            ? this.experience.projectsConfig.pcScreen.video 
+            : '/assets/videoPortfolio.mp4'
+            
+        const macVideo = (this.experience.projectsConfig && this.experience.projectsConfig.macScreen && this.experience.projectsConfig.macScreen.video)
+            ? this.experience.projectsConfig.macScreen.video
+            : '/assets/videoStream.mp4'
+
         this.pcScreen = new Screen(
             this.resources.items.pcScreenModel.scene.children[0],
-            '/assets/videoPortfolio.mp4'
+            pcVideo
         )
         this.macScreen = new Screen(
             this.resources.items.macScreenModel.scene.children[0],
-            '/assets/videoStream.mp4'
+            macVideo
         )
     }
 
@@ -112,9 +121,13 @@ export default class World
             this.tvMesh.rotation.y = -1.57
         }
         
+        const tvVideo = (this.experience.projectsConfig && this.experience.projectsConfig.tv && this.experience.projectsConfig.tv.video)
+            ? this.experience.projectsConfig.tv.video
+            : '/assets/videoGame.mp4'
+
         this.tvScreen = new Screen(
             this.tvMesh,
-            '/assets/videoGame.mp4'
+            tvVideo
         )
     }
 

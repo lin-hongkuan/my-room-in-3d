@@ -6,7 +6,12 @@ export async function onRequestPost(context) {
     const r2 = env.ROOMTOUR_ASSETS
     
     if (!r2) {
-        return new Response(JSON.stringify({ error: 'R2 bucket not bound' }), { status: 500 })
+        // 调试信息：列出所有可用的环境变量名（不显示值）
+        const availableKeys = Object.keys(env).join(', ')
+        return new Response(JSON.stringify({ 
+            error: 'R2 bucket not bound',
+            debug_info: `Available env keys: [${availableKeys}]. Please ensure ROOMTOUR_ASSETS is in this list.`
+        }), { status: 500 })
     }
 
     // 安全校验

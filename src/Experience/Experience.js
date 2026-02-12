@@ -47,9 +47,14 @@ export default class Experience
         this.settingsReady = false
         this.pendingSettings = null
         this.isApplyingSettings = false
-        this.setWorld()
-        this.setNavigation()
-        this.setInteraction()
+        
+        // 异步获取项目配置后再初始化世界
+        this.projectsConfig = null
+        this.fetchProjectsConfig().then(() => {
+            this.setWorld()
+            this.setNavigation()
+            this.setInteraction()
+        })
 
         this.sizes.on('resize', () =>
         {
@@ -89,6 +94,16 @@ export default class Experience
         
         // Debug：仅控制是否创建 Stats/调试面板，默认不显示，由 F12 面板开关控制
         this.config.debug = this.config.width > 420
+    }
+
+    async fetchProjectsConfig()
+    {
+        try {
+            const response = await fetch('/api/projects')
+            this.projectsConfig = await response.json()
+        } catch (err) {
+            console.warn('Failed to fetch projects config:', err)
+        }
     }
 
     setStats()
