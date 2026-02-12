@@ -81,11 +81,30 @@ git push -u origin main
    - **KV namespace**：选刚建的 `roomtour-settings`。
 5. 点 **Save**。
 
-之后每次部署（包括自动部署）都会带上这个 KV 绑定，无需再配。
+### 4.3 设置管理后台密码 (Optional)
+
+为了防止他人修改你的卡片内容，建议设置一个自定义 Token：
+1. 在同一页面（Settings -> Functions）找到 **Environment variables**。
+2. 点 **Add variable**。
+3. **Variable name**: `ADMIN_TOKEN`
+4. **Value**: `你的自定义密码` (默认是 `admin123`)
+5. 点 **Save**。
 
 ---
 
-## 五、之后每次更新网站怎么做？
+## 五、使用管理后台
+
+部署完成后，你可以通过以下地址管理你的 3D 房间内容：
+- **地址**: `你的域名/admin.html`
+- **操作**: 
+    1. 在页面顶部输入你设置的 `ADMIN_TOKEN`。
+    2. 修改各个区域（电脑、Mac、电视等）的卡片信息。
+    3. 点击 **保存更改**，设置将立即同步到云端。
+    4. 刷新 3D 房间页面即可看到更新。
+
+---
+
+## 六、之后每次更新网站怎么做？
 
 - **推代码到 GitHub**（你连接的那个分支，例如 `main`）  
   → Cloudflare 会自动：
